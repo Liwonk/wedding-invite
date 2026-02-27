@@ -1,365 +1,277 @@
 <!DOCTYPE html>
 <html lang="ru">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Свадебное Приглашение</title>
+    <title>Приглашение на свадьбу | Андрей и Наталия</title>
+    <meta name="description" content="Приглашаем вас разделить с нами радость этого дня!">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;500;600&family=Montserrat:wght@200;300;400;500&display=swap" rel="stylesheet">
-
-    <style>
-        /* --- 1. БАЗОВЫЕ НАСТРОЙКИ --- */
-        :root {
-            --black: #000000;
-            --white: #ffffff;
-            --font-title: 'Cormorant Garamond', serif;
-            --font-text: 'Montserrat', sans-serif;
-        }
-
-        * { margin: 0; padding: 0; box-sizing: border-box; }
-
-        body, html {
-            width: 100%;
-            height: 100%;
-            font-family: var(--font-text);
-            color: var(--black);
-            background-color: var(--white);
-            overflow-x: hidden;
-            scroll-behavior: smooth;
-        }
-
-        /* --- 2. ПРЕЛОАДЕР --- */
-        #preloader {
-            position: fixed;
-            top: 0; left: 0; width: 100%; height: 100%;
-            background-color: var(--black);
-            z-index: 9999;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            transform: translateX(0);
-            transition: transform 2s cubic-bezier(0.8, 0, 0.1, 1);
-        }
-
-        #preloader h1 {
-            color: var(--white);
-            font-family: var(--font-title);
-            font-size: 40px;
-            font-weight: 300;
-            letter-spacing: 5px;
-            text-align: center;
-            text-transform: uppercase;
-            transition: opacity 0.8s ease, transform 1.5s ease;
-        }
-
-        body.loaded #preloader { transform: translateX(100%); }
-        body.loaded #preloader h1 { opacity: 0; transform: translateX(200px); }
-
-        /* --- 3. ТИПОГРАФИКА И ОТСТУПЫ --- */
-        h1, h2, h3 {
-            font-family: var(--font-title);
-            text-transform: uppercase;
-            font-weight: 400;
-            text-align: center;
-        }
-
-        h2 { font-size: 42px; margin-bottom: 30px; letter-spacing: 1px; }
-        h3 { font-size: 24px; margin-bottom: 10px; letter-spacing: 1px; }
-        
-        p {
-            font-size: 15px;
-            line-height: 1.7;
-            text-align: center;
-            font-weight: 300;
-            margin-bottom: 25px;
-            color: #474040;
-        }
-
-        .container { max-width: 500px; margin: 0 auto; padding: 0 25px; }
-        
-        section { padding: 120px 0; } 
-        .center-text { text-align: center; }
-        .btn {
-            display: inline-block;
-            padding: 20px 40px;
-            text-transform: uppercase;
-            font-family: var(--font-text);
-            font-size: 11px;
-            letter-spacing: 2px;
-            cursor: pointer;
-            transition: 0.3s;
-            text-decoration: none;
-            border: 1px solid transparent;
-        }
-
-        /* --- 4. ГЛАВНЫЙ ЭКРАН (HERO) --- */
-        .hero {
-            height: 100vh;
-            background-image: url('https://i.pinimg.com/736x/11/2b/79/112b79a7c02821c3bed6e444b2e0295a.jpg');
-            background-size: cover;
-            background-position: center;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            position: relative;
-            filter: grayscale(100%); /* ЧБ фильтр */
-        }
-
-        .hero::after {
-            content: ''; position: absolute; top:0; left:0; width:100%; height:100%;
-            background: rgba(0,0,0,0.25);
-        }
-
-        .hero-content {
-            position: relative;
-            z-index: 2;
-            text-align: center;
-            color: white;
-            opacity: 0;
-            transform: translateY(40px);
-            transition: all 1.5s ease 1s;
-        }
-
-        body.loaded .hero-content { opacity: 1; transform: translateY(0); }
-
-        .hero-title { font-size: 13vw; line-height: 1.1; margin: 25px 0; }
-        .hero-subtitle { font-size: 11px; text-transform: uppercase; letter-spacing: 4px; opacity: 0.8; }
-        .scroll-hint { position: absolute; bottom: 40px; color: white; z-index: 2; font-size: 9px; text-transform: uppercase; letter-spacing: 2px; animation: bounce 2s infinite; opacity: 0.7;}
-
-        /* --- 5. АНИМАЦИЯ ПОЯВЛЕНИЯ --- */
-        .reveal { opacity: 0; transform: translateY(70px); transition: all 1.1s cubic-bezier(0.25, 0.46, 0.45, 0.94); }
-        .reveal.active { opacity: 1; transform: translateY(0); }
-
-        /* --- 6. СТИЛИ СЕКЦИЙ --- */
-        .big-date-divider { font-size: 40px; font-family: var(--font-title); margin: 50px 0; display: flex; justify-content: center; align-items: center; gap: 25px; }
-        .big-date-divider span { border-bottom: 1px solid #000; padding-bottom: 5px; }
-        
-        /* Программа */
-        .timeline-box { border-left: 1px solid #000; padding-left: 30px; margin-left: 20px; text-align: left; margin-top: 40px; }
-        .timeline-item { margin-bottom: 60px; }
-        .timeline-time { font-family: var(--font-title); font-size: 36px; margin-bottom: 12px; display: inline-block; border-bottom: 1px solid transparent; transition: 0.5s;}
-        .timeline-item.active .timeline-time { border-color: #000; } /* Подчеркивание при появлении */
-        .timeline-item p { text-align: left; margin: 0; }
-
-        /* Разделитель фото */
-        .photo-divider { height: 70vh; background-image: url('https://avatars.mds.yandex.net/i?id=9ed73ded005f89b6ce9840c46c3845f0d73a49f8-5232391-images-thumbs&n=13'); background-size: cover; background-position: center; filter: grayscale(100%); }
-
-        /* Дресс код */
-        .palette { display: flex; justify-content: center; gap: 25px; margin: 40px 0; }
-        .swatch { width: 55px; height: 55px; border-radius: 50%; border: 1px solid #eee; }
-
-        /* АНКЕТА */
-        .form-group { margin-bottom: 45px; text-align: left; }
-        .form-label { display: block; text-transform: uppercase; font-size: 11px; letter-spacing: 2px; margin-bottom: 20px; font-weight: 600;}
-        .form-input { width: 100%; border: none; border-bottom: 1px solid #000; padding: 15px 0; font-family: var(--font-text); font-size: 16px; background: transparent; outline: none; border-radius: 0; }
-        .checkbox-option { display: flex; align-items: center; margin-bottom: 18px; cursor: pointer; font-size: 15px; }
-        .checkbox-option input { margin-right: 18px; transform: scale(1.1); }
-        .btn-form { width: 100%; background: #000; color: #fff; border: 1px solid #000; }
-        .btn-form:hover { background: transparent; color: #000; }
-
-        #rsvp-section { padding-bottom: 150px; }
-
-        /* КОНТАКТЫ */
-        .contact-buttons {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            gap: 20px;
-            margin-top: 50px;
-        }
-        .btn-contact { min-width: 260px; }
-        .btn-outline { background: transparent; color: #000; border-color: #000; }
-        .btn-outline:hover { background: #000; color: #fff; }
-        .btn-black { background: #000; color: #fff; border-color: #000; }
-        .btn-black:hover { background: transparent; color: #000; }
-
-        /* ТАЙМЕР и ФУТЕР */
-        .footer-timer {
-            background-image: url('https://i.pinimg.com/originals/2c/80/b8/2c80b80d98e09256e393dad49ba79891.jpg');
-            background-size: cover;
-            background-position: center;
-            height: 80vh;
-            display: flex;
-            align-items: flex-end;
-            justify-content: center;
-            padding-bottom: 100px;
-            position: relative;
-            filter: grayscale(100%);
-        }
-        .footer-timer::before { content: ''; position: absolute; top:0; left:0; width:100%; height:100%; background: linear-gradient(to top, rgba(0,0,0,0.8), transparent); }
-        .timer-content { position: relative; z-index: 2; color: white; text-align: center; }
-        .timer-grid { display: flex; gap: 35px; justify-content: center; margin-top: 25px; }
-        .timer-val { font-family: var(--font-title); font-size: 50px; line-height: 1; }
-        .timer-label { font-size: 10px; text-transform: uppercase; opacity: 0.7; margin-top: 10px; letter-spacing: 2px;}
-
-        @keyframes bounce { 0%, 100% {transform: translateY(0);} 50% {transform: translateY(-8px);} }
-    </style>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,400&family=Montserrat:wght@300;400;500&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
 </head>
-<body>
 
-    <div id="preloader">
-        <h1>КУРИНКА <br>&<br> НАГЕТС</h1>
+<body>
+    <!-- Шторки прелоадера -->
+    <div class="curtain-container" id="curtain">
+        <div class="curtain curtain-left"></div>
+        <div class="curtain curtain-right"></div>
+        <div class="open-btn-container">
+            <button id="open-invitation" class="btn">Открыть приглашение</button>
+        </div>
     </div>
 
-    <header class="hero">
-        <div class="hero-content">
-            <p class="hero-subtitle">Приглашение на свадьбу</p>
-            <h1 class="hero-title">КУРИНКА <br>&<br> НАГЕТС</h1>
-            <p class="hero-subtitle">25 ОКТЯБРЯ 2026</p>
+    <!-- 1. Титульный лист -->
+    <section class="section hero">
+        <div class="hero-bg"></div> <!-- Сюда в CSS вставишь ВАШЕ ФОТО -->
+        <div class="hero-overlay"></div>
+        <div class="hero-content" data-aos="fade-up">
+            <h2 class="hero-subtitle">Мы женимся!</h2>
+            <h1 class="hero-title">Андрей <span class="amp">&</span> Наталия</h1>
+            <p class="hero-date">05 сентября 2026</p>
         </div>
-        <div class="scroll-hint">Листайте вниз</div>
-    </header>
-
-    <section class="container center-text reveal">
-        <h2>Дорогие гости!</h2>
-        <p>Мы рады сообщить вам о создании нашей семьи!<br>Приглашаем вас разделить с нами этот особенный день.</p>
-        
-        <div class="big-date-divider">
-            <span>25</span> . <span>10</span> . <span>26</span>
-        </div>
-
-        <p>С нетерпением ждем встречи!</p>
     </section>
 
-    <section class="container center-text">
-        <h2 class="reveal">Программа дня</h2>
-        <div class="timeline-box">
-            <div class="timeline-item reveal">
-                <div class="timeline-time">15:30</div>
-                <h3>Сбор гостей</h3>
-                <p>Встречаемся в лобби отеля, приветственный фуршет и игристое под звуки живой музыки.</p>
-            </div>
-            <div class="timeline-item reveal">
-                <div class="timeline-time">16:30</div>
-                <h3>Церемония</h3>
-                <p>Самый важный момент дня — трогательная выездная регистрация под открытым небом.</p>
-            </div>
-            <div class="timeline-item reveal">
-                <div class="timeline-time">18:00</div>
-                <h3>Ужин и Вечеринка</h3>
-                <p>Начало праздничного банкета, поздравления от родных, первый танец и много веселья.</p>
-            </div>
-            <div class="timeline-item reveal">
-                <div class="timeline-time">22:30</div>
-                <h3>Торт и Финал</h3>
-                <p>Разрезание свадебного торта, бенгальские огни и яркое завершение вечера.</p>
+    <!-- 2. Приветствие -->
+    <section class="section welcome">
+        <div class="container" data-aos="fade-up">
+            <h2 class="title">Дорогие родные и друзья!</h2>
+            <p class="text">Совсем скоро состоится событие, к которому мы шли с любовью, волнением и улыбкой – наша
+                свадьба.</p>
+            <p class="text">Мы приглашаем вас стать частью нашего праздника – дня, когда мы официально станем семьей.
+            </p>
+            <p class="text">Ваше присутствие сделает этот день по-настоящему тёплым и незабываемым.</p>
+            <div class="welcome-photo-placeholder">
+                <!-- Сюда добавишь общую фотку (тег img) -->
+                <span>Наше фото</span>
             </div>
         </div>
     </section>
 
-    <div class="photo-divider reveal"></div>
-
-    <section class="container center-text reveal">
-        <h2>Dress Code</h2>
-        <p style="text-transform: uppercase; font-size: 11px; letter-spacing: 3px; margin-bottom: 30px;">/ Black Tie Optional /</p>
-        <p>Мы будем признательны, если вы поддержите черно-белую палитру нашего торжества. Для дам — вечерние платья, для джентльменов — костюмы.</p>
-        
-        <div class="palette">
-            <div class="swatch" style="background: #000;"></div>
-            <div class="swatch" style="background: #fff; border-color: #000;"></div>
-            <div class="swatch" style="background: #333;"></div>
+    <!-- 3. Дата -->
+    <section class="section date-section bg-light">
+        <div class="container" data-aos="fade-up">
+            <h2 class="title date-big">05 / 09 / 2026</h2>
+            <p class="subtitle-small">Сентябрь</p>
+            <div class="calendar-wrapper">
+                <table class="calendar">
+                    <thead>
+                        <tr>
+                            <th>Пн</th>
+                            <th>Вт</th>
+                            <th>Ср</th>
+                            <th>Чт</th>
+                            <th>Пт</th>
+                            <th class="weekend">Сб</th>
+                            <th class="weekend">Вс</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td></td>
+                            <td>1</td>
+                            <td>2</td>
+                            <td>3</td>
+                            <td>4</td>
+                            <td class="target-date"><span>5</span></td>
+                            <td class="weekend">6</td>
+                        </tr>
+                        <tr>
+                            <td>7</td>
+                            <td>8</td>
+                            <td>9</td>
+                            <td>10</td>
+                            <td>11</td>
+                            <td class="weekend">12</td>
+                            <td class="weekend">13</td>
+                        </tr>
+                        <tr>
+                            <td>14</td>
+                            <td>15</td>
+                            <td>16</td>
+                            <td>17</td>
+                            <td>18</td>
+                            <td class="weekend">19</td>
+                            <td class="weekend">20</td>
+                        </tr>
+                        <tr>
+                            <td>21</td>
+                            <td>22</td>
+                            <td>23</td>
+                            <td>24</td>
+                            <td>25</td>
+                            <td class="weekend">26</td>
+                            <td class="weekend">27</td>
+                        </tr>
+                        <tr>
+                            <td>28</td>
+                            <td>29</td>
+                            <td>30</td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
         </div>
     </section>
 
-    <section class="container reveal" id="rsvp-section">
-        <h2 class="center-text">Анкета гостя</h2>
-        <p class="center-text">Пожалуйста, подтвердите ваше присутствие до 1 сентября.</p>
-        <br><br>
-
-        <form action="https://formspree.io/f/YOUR_ID_HERE" method="POST">
-            
-            <div class="form-group">
-                <label class="form-label">Ваши Имя и Фамилия</label>
-                <input type="text" name="name" class="form-input" placeholder="Например: Иван и Ольга Петровы" required>
+    <!-- 4. Место -->
+    <section class="section venue">
+        <div class="container" data-aos="fade-up">
+            <h2 class="title">Место проведения</h2>
+            <p class="venue-name">Государственная Резиденция К-2</p>
+            <p class="text">г. Санкт-Петербург, набережная реки Малой Невки, 6</p>
+            <div class="map-container"
+                style="margin-top: 30px; border-radius: 8px; overflow: hidden; box-shadow: 0 10px 25px rgba(0,0,0,0.1); position: relative;">
+                <!-- Яндекс Карта (Государственная Резиденция К-2) -->
+                <iframe
+                    src="https://yandex.ru/map-widget/v1/?um=constructor%3Abd76f52310c7b8c942ed4eb0c27875c7fb7de8d6fe0b8d0e6178b3aaf61981f8&amp;source=constructor"
+                    width="100%" height="400" frameborder="0"></iframe>
             </div>
-
-            <div class="form-group">
-                <label class="form-label">Сможете ли вы присутствовать?</label>
-                <label class="checkbox-option"><input type="radio" name="attend" value="yes" checked> Да, с удовольствием!</label>
-                <label class="checkbox-option"><input type="radio" name="attend" value="no"> К сожалению, не смогу</label>
-            </div>
-
-            <div class="form-group">
-                <label class="form-label">Предпочтения по напиткам</label>
-                <label class="checkbox-option"><input type="checkbox" name="alco[]" value="champagne"> Игристое</label>
-                <label class="checkbox-option"><input type="checkbox" name="alco[]" value="wine_red"> Красное вино</label>
-                <label class="checkbox-option"><input type="checkbox" name="alco[]" value="wine_white"> Белое вино</label>
-                <label class="checkbox-option"><input type="checkbox" name="alco[]" value="whiskey"> Виски</label>
-                <label class="checkbox-option"><input type="checkbox" name="alco[]" value="vodka"> Водка</label>
-            </div>
-
-            <button type="submit" class="btn btn-form">Отправить анкету</button>
-        </form>
-    </section>
-
-    <section class="container center-text reveal">
-        <h2>Контакты</h2>
-        <p>По всем организационным вопросам вы можете связаться с нашим координатором — Марией.</p>
-        
-        <div class="contact-buttons">
-            <a href="tel:+79990000000" class="btn btn-contact btn-outline">Позвонить координатору</a>
-            <a href="https://wa.me/79990000000" class="btn btn-contact btn-black">Написать в WhatsApp</a>
+            <a href="https://yandex.ru/maps/-/CPe2BOpn" target="_blank" class="btn btn-outline"
+                style="margin-top: 20px;">Открыть в Яндекс Картах</a>
         </div>
     </section>
 
-    <footer class="footer-timer reveal">
-        <div class="timer-content">
-            <p class="hero-subtitle" style="margin-bottom: 25px;">До свадьбы осталось</p>
-            <div class="timer-grid" id="countdown">
-                <div><div class="timer-val" id="days">00</div><div class="timer-label">Дней</div></div>
-                <div><div class="timer-val" id="hours">00</div><div class="timer-label">Часов</div></div>
-                <div><div class="timer-val" id="minutes">00</div><div class="timer-label">Минут</div></div>
+    <!-- 5. Тайминг -->
+    <section class="section timing bg-light">
+        <div class="container" data-aos="fade-up">
+            <h2 class="title">Тайминг мероприятия</h2>
+            <p class="text-muted">(предварительный)</p>
+            <div class="timeline">
+                <div class="timeline-item" data-aos="fade-up">
+                    <div class="time">15:30</div>
+                    <div class="content">
+                        <h3>Сбор гостей, фуршет</h3>
+                        <p>Знакомимся, обнимаемся, фотографируемся, настраиваемся на веселый вечер</p>
+                    </div>
+                </div>
+                <div class="timeline-item" data-aos="fade-up">
+                    <div class="time">16:30</div>
+                    <div class="content">
+                        <h3>Церемония бракосочетания</h3>
+                        <p>Немного радостных формальностей на свежем воздухе, ради которых мы собрались</p>
+                    </div>
+                </div>
+                <div class="timeline-item" data-aos="fade-up">
+                    <div class="time">18:00</div>
+                    <div class="content">
+                        <h3>Банкет</h3>
+                        <p>Сделаем этот вечер незабываемым вместе</p>
+                    </div>
+                </div>
+                <div class="timeline-item" data-aos="fade-up">
+                    <div class="time">21:00</div>
+                    <div class="content">
+                        <h3>Торт и огни</h3>
+                        <p>Разрежем торт, зажжем бенгальские огни и продолжим веселиться</p>
+                    </div>
+                </div>
+                <div class="timeline-item" data-aos="fade-up">
+                    <div class="time">23:00</div>
+                    <div class="content">
+                        <h3>Завершение мероприятия</h3>
+                        <p>Обнимемся напоследок и отправимся отдыхать</p>
+                    </div>
+                </div>
             </div>
         </div>
-    </footer>
+    </section>
 
-    <script>
-        window.addEventListener('load', () => {
-            setTimeout(() => {
-                document.body.classList.add('loaded');
-            }, 1500);
-        });
+    <!-- 6. Дресс-код -->
+    <section class="section dresscode">
+        <div class="container" data-aos="fade-up">
+            <h2 class="title">Дресс-код</h2>
+            <p class="text">Мы будем рады, если вы поддержите концепцию нашего праздника своими вечерними образами</p>
 
-        const observer = new IntersectionObserver((entries) => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    if(entry.target.classList.contains('timeline-item')) {
-                        setTimeout(() => {
-                             entry.target.classList.add('active');
-                        }, 100); 
-                    } else {
-                        entry.target.classList.add('active');
-                    }
-                }
-            });
-        }, { threshold: 0.2 }); 
+            <p class="palette-title">Цветовая палитра:</p>
+            <div class="palette">
+                <!-- Цвета поменяй в CSS (.color-1 и т.д.) -->
+                <div class="color-circle bg-color-1"></div>
+                <div class="color-circle bg-color-2"></div>
+                <div class="color-circle bg-color-3"></div>
+                <div class="color-circle bg-color-4"></div>
+                <div class="color-circle bg-color-5"></div>
+            </div>
 
-        document.querySelectorAll('.reveal').forEach(el => {
-            observer.observe(el);
-        });
+            <div class="dresscode-rules">
+                <p>Друзья, просим по возможности избегать:</p>
+                <ul>
+                    <li>белых платьев – оставьте его для невесты;</li>
+                    <li>полностью черного образа;</li>
+                    <li>спортивной обуви;</li>
+                    <li>ярких неоновых оттенков.</li>
+                </ul>
+                <p class="important">Главное – чтобы вам было комфортно!</p>
+            </div>
+        </div>
+    </section>
 
-        const weddingDate = new Date('October 25, 2026 16:30:00').getTime();
+    <!-- 7. Пожелания -->
+    <section class="section wishes bg-light">
+        <div class="container" data-aos="fade-up">
+            <h2 class="title">Пожелания</h2>
+            <p class="text">Самый ценный подарок для нас – ваше присутствие и замечательное настроение.</p>
+            <p class="text">Подарите нам эмоции, улыбки и теплые воспоминания.</p>
+            <p class="text">Если захочется порадовать нас дополнительно — доверьтесь конверту, который знает, как
+                превращаться в мечты.</p>
+        </div>
+    </section>
 
-        const timer = setInterval(function() {
-            const now = new Date().getTime();
-            const distance = weddingDate - now;
+    <!-- 8. Анкета гостя (Интеграция с Яндекс.Формами) -->
+    <section class="section rsvp">
+        <div class="container" data-aos="fade-up">
+            <h2 class="title">Анкета гостя</h2>
+            <p class="text">Просьба дать свой ответ до <strong>01.08.2026</strong></p>
 
-            const days = Math.floor(distance / (1000 * 60 * 60 * 24));
-            const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-            const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+            <div class="yandex-form-wrapper" style="margin-top: 30px; display: flex; justify-content: center;">
+                <script src="https://forms.yandex.ru/_static/embed.js"></script><iframe
+                    src="https://forms.yandex.ru/u/69a16547eb61460020d99c51?iframe=1" frameborder="0"
+                    name="ya-form-69a16547eb61460020d99c51" width="650"></iframe>
+            </div>
 
-            document.getElementById("days").innerText = days > 0 ? days : "0";
-            document.getElementById("hours").innerText = hours > 0 ? hours : "0";
-            document.getElementById("minutes").innerText = minutes > 0 ? minutes : "0";
+            <p class="text mt-lg">Спасибо, что нашли время заполнить анкету.</p>
 
-            if (distance < 0) {
-                clearInterval(timer);
-                document.getElementById("countdown").innerHTML = "<h2 style='color:white;'>УРА! СЕГОДНЯ!</h2>";
-            }
-        }, 1000);
-    </script>
+            <div class="organizer-info">
+                <p>По всем вопросам, связанным с торжественным вечером, вы можете обратится к нашему организатору:</p>
+                <p class="org-contacts"><strong>Алиса (Организатор)</strong><br>
+                    <a href="tel:+79990000000">+7 (999) 000-00-00</a> | <a href="https://t.me/telegram"
+                        target="_blank">Telegram</a>
+                </p>
+            </div>
 
+        </div>
+    </section>
+
+    <!-- 9. Таймер -->
+    <section class="section countdown-section">
+        <div class="container">
+            <h2 class="countdown-title">До нашей свадьбы осталось:</h2>
+            <div class="timer" id="timer">
+                <div class="timer-box"><span id="days">00</span>
+                    <p>Дней</p>
+                </div>
+                <div class="timer-box"><span id="hours">00</span>
+                    <p>Часов</p>
+                </div>
+                <div class="timer-box"><span id="minutes">00</span>
+                    <p>Минут</p>
+                </div>
+                <div class="timer-box"><span id="seconds">00</span>
+                    <p>Секунд</p>
+                </div>
+            </div>
+            <h2 class="hero-title mt-lg" style="margin-top: 40px; font-size: 2.5rem;">Мы будем рады видеть вас!</h2>
+        </div>
+    </section>
+
+    <script src="script.js"></script>
 </body>
+
 </html>
