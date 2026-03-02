@@ -121,24 +121,30 @@ document.addEventListener("DOMContentLoaded", () => {
 
         const dots = document.querySelectorAll('.scroll-dot');
 
-        const dotObserverOptions = {
-            root: null,
-            rootMargin: '-30% 0px -30% 0px',
-            threshold: 0
-        };
+        // Отслеживаем прокрутку окна для более точного определения центра экрана
+        window.addEventListener('scroll', () => {
+            let currentActiveIndex = 0;
+            let minDistanceToCenter = Infinity;
+            const windowCenter = window.innerHeight / 2;
 
-        const dotObserver = new IntersectionObserver((entries) => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    const index = Array.from(sectionsObj).indexOf(entry.target);
-                    dots.forEach(d => d.classList.remove('active'));
-                    if (dots[index]) dots[index].classList.add('active');
+            sectionsObj.forEach((sec, index) => {
+                const rect = sec.getBoundingClientRect();
+                const secCenter = rect.top + rect.height / 2;
+
+                // Расстояние от центра секции до центра экрана
+                const distanceToCenter = Math.abs(windowCenter - secCenter);
+
+                if (distanceToCenter < minDistanceToCenter) {
+                    minDistanceToCenter = distanceToCenter;
+                    currentActiveIndex = index;
                 }
             });
-        }, dotObserverOptions);
 
-        sectionsObj.forEach(section => {
-            dotObserver.observe(section);
+            // Обновляем активную точку
+            dots.forEach(d => d.classList.remove('active'));
+            if (dots[currentActiveIndex]) {
+                dots[currentActiveIndex].classList.add('active');
+            }
         });
     }
 });
