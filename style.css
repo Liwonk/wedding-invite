@@ -331,6 +331,11 @@ h6 {
     font-size: 1.5rem;
     font-weight: 500;
     margin-bottom: 10px;
+    color: var(--primary-color);
+}
+
+.venue .text {
+    color: var(--primary-color);
 }
 
 .venue .btn {
@@ -423,11 +428,12 @@ h6 {
 
 /* НАСТРОЙКА ЦВЕТОВ ПАЛИТРЫ (Замени на свои!) */
 .bg-color-1 {
-    background-color: #8B6D5C;
+    background-color: #9F8170;
+    /* Lightest */
 }
 
 .bg-color-2 {
-    background-color: #9F8170;
+    background-color: #8B6D5C;
 }
 
 .bg-color-3 {
@@ -435,11 +441,12 @@ h6 {
 }
 
 .bg-color-4 {
-    background-color: #654321;
+    background-color: #79553D;
 }
 
 .bg-color-5 {
-    background-color: #79553D;
+    background-color: #654321;
+    /* Darkest */
 }
 
 .dresscode-rules ul {
