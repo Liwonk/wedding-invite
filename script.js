@@ -1,9 +1,9 @@
 document.addEventListener("DOMContentLoaded", () => {
-    
+
     // 1. Анимация шторки прелоадера
     const openBtn = document.getElementById('open-invitation');
     const curtainContainer = document.getElementById('curtain');
-    
+
     openBtn.addEventListener('click', () => {
         curtainContainer.classList.add('opened');
         // После открытия запускаем анимации элементов при скролле
@@ -13,7 +13,7 @@ document.addEventListener("DOMContentLoaded", () => {
     // 2. Анимация появления контента при скролле (Intersection Observer)
     function initScrollAnimations() {
         const sections = document.querySelectorAll('.section');
-        
+
         const observerOptions = {
             root: null,
             rootMargin: '0px',
@@ -31,7 +31,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
         sections.forEach(section => {
             // Hero секция уже видна, её не анимируем скроллом
-            if(!section.classList.contains('hero')) {
+            if (!section.classList.contains('hero')) {
                 observer.observe(section);
             } else {
                 section.classList.add('visible');
@@ -53,9 +53,9 @@ document.addEventListener("DOMContentLoaded", () => {
                 // Разблокируем
                 alcoholChecks.forEach(c => c.disabled = false);
             }
-            
+
             // Если выбрал "Не буду пить", отменяем остальные
-            if(check.value === "Не буду пить алкоголь" && check.checked) {
+            if (check.value === "Не буду пить алкоголь" && check.checked) {
                 alcoholChecks.forEach(c => {
                     if (c !== check) {
                         c.checked = false;
@@ -71,7 +71,7 @@ document.addEventListener("DOMContentLoaded", () => {
     // 4. Таймер обратного отсчета
     const countDownDate = new Date("Sep 5, 2026 15:30:00").getTime();
 
-    const timerInterval = setInterval(function() {
+    const timerInterval = setInterval(function () {
         const now = new Date().getTime();
         const distance = countDownDate - now;
 
@@ -80,10 +80,10 @@ document.addEventListener("DOMContentLoaded", () => {
         const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
         const seconds = Math.floor((distance % (1000 * 60)) / 1000);
 
-        document.getElementById("days").innerHTML = days < 10 ? '0'+days : days;
-        document.getElementById("hours").innerHTML = hours < 10 ? '0'+hours : hours;
-        document.getElementById("minutes").innerHTML = minutes < 10 ? '0'+minutes : minutes;
-        document.getElementById("seconds").innerHTML = seconds < 10 ? '0'+seconds : seconds;
+        document.getElementById("days").innerHTML = days < 10 ? '0' + days : days;
+        document.getElementById("hours").innerHTML = hours < 10 ? '0' + hours : hours;
+        document.getElementById("minutes").innerHTML = minutes < 10 ? '0' + minutes : minutes;
+        document.getElementById("seconds").innerHTML = seconds < 10 ? '0' + seconds : seconds;
 
         if (distance < 0) {
             clearInterval(timerInterval);
@@ -93,10 +93,52 @@ document.addEventListener("DOMContentLoaded", () => {
 
     // 5. Простая отправка формы (для теста уберем стандартный submit если нет форминга)
     const form = document.getElementById('rsvpForm');
-    form.addEventListener('submit', function(e) {
-        // e.preventDefault();
-        // В продакшене вы используете action="https://formspree.io/..."
-        // Для Formspree preventDefault не нужен, форма сама отправится.
-        alert('Спасибо за ваш ответ! Форма в процессе отправки.');
-    });
+    if (form) {
+        form.addEventListener('submit', function (e) {
+            // e.preventDefault();
+            // В продакшене вы используете action="https://formspree.io/..."
+            // Для Formspree preventDefault не нужен, форма сама отправится.
+            alert('Спасибо за ваш ответ! Форма в процессе отправки.');
+        });
+    }
+
+    // 6. Navigation Dots (Apple style)
+    const sectionsObj = document.querySelectorAll('.section');
+    const indicatorContainer = document.getElementById('scroll-indicator');
+
+    if (indicatorContainer && sectionsObj.length > 0) {
+        sectionsObj.forEach((sec, index) => {
+            const dot = document.createElement('div');
+            dot.classList.add('scroll-dot');
+            if (index === 0) dot.classList.add('active');
+
+            // Клик для прокрутки к секции
+            dot.addEventListener('click', () => {
+                sec.scrollIntoView({ behavior: 'smooth' });
+            });
+            indicatorContainer.appendChild(dot);
+        });
+
+        const dots = document.querySelectorAll('.scroll-dot');
+
+        const dotObserverOptions = {
+            root: null,
+            rootMargin: '-30% 0px -30% 0px',
+            threshold: 0
+        };
+
+        const dotObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    const index = Array.from(sectionsObj).indexOf(entry.target);
+                    dots.forEach(d => d.classList.remove('active'));
+                    if (dots[index]) dots[index].classList.add('active');
+                }
+            });
+        }, dotObserverOptions);
+
+        sectionsObj.forEach(section => {
+            dotObserver.observe(section);
+        });
+    }
 });
