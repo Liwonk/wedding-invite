@@ -39,37 +39,10 @@ document.addEventListener("DOMContentLoaded", () => {
         });
     }
 
-    // 3. Обработка чекбоксов алкоголя (не больше 3х)
-    const alcoholChecks = document.querySelectorAll('input[name="alcohol"]');
-    alcoholChecks.forEach(check => {
-        check.addEventListener('change', () => {
-            const checkedCount = document.querySelectorAll('input[name="alcohol"]:checked').length;
-            if (checkedCount >= 3) {
-                // Блокируем остальные
-                alcoholChecks.forEach(c => {
-                    if (!c.checked) c.disabled = true;
-                });
-            } else {
-                // Разблокируем
-                alcoholChecks.forEach(c => c.disabled = false);
-            }
 
-            // Если выбрал "Не буду пить", отменяем остальные
-            if (check.value === "Не буду пить алкоголь" && check.checked) {
-                alcoholChecks.forEach(c => {
-                    if (c !== check) {
-                        c.checked = false;
-                        c.disabled = true;
-                    }
-                });
-            } else if (check.value === "Не буду пить алкоголь" && !check.checked) {
-                alcoholChecks.forEach(c => c.disabled = false);
-            }
-        });
-    });
 
     // 4. Таймер обратного отсчета
-    const countDownDate = new Date("Sep 5, 2026 15:30:00").getTime();
+    const countDownDate = new Date("Aug 1, 2026 16:00:00").getTime();
 
     const timerInterval = setInterval(function () {
         const now = new Date().getTime();
@@ -91,16 +64,7 @@ document.addEventListener("DOMContentLoaded", () => {
         }
     }, 1000);
 
-    // 5. Простая отправка формы (для теста уберем стандартный submit если нет форминга)
-    const form = document.getElementById('rsvpForm');
-    if (form) {
-        form.addEventListener('submit', function (e) {
-            // e.preventDefault();
-            // В продакшене вы используете action="https://formspree.io/..."
-            // Для Formspree preventDefault не нужен, форма сама отправится.
-            alert('Спасибо за ваш ответ! Форма в процессе отправки.');
-        });
-    }
+
 
     // 6. Navigation Dots (Apple style)
     const sectionsObj = document.querySelectorAll('.section');
